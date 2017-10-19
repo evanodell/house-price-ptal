@@ -1,1 +1,1 @@
-# house-price-ptal
+# Code for blog on transport accessibility and housing prices

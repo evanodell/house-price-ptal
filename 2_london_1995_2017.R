@@ -109,23 +109,23 @@ p3 <- ggplot(pp_london_2012_2017, aes(x = ptal_score, y = price)) +
   geom_smooth(se=FALSE) + 
   scale_colour_manual(values=ptal_colour) + 
   labs(x = "PTAL Score", y = "Price (in £1,000,000)", caption = "Evan Odell") +
-  theme(legend.position = "bottom", legend.box = "vertical") + 
+  theme(legend.position = "bottom", legend.box = "vertical", plot.title = element_text(size = 14)) + 
   ggtitle("Housing Prices and PTAL Score, 1 September 2012 to 31 August 2017")
 
 p3
 
-ggsave(plot=p3, filename="p3-ptal-EO.png", width = 18, height = 12, units = "cm", type = "cairo-png")
+ggsave(plot=p3, filename="p3-ptal-EO.png", width = 25, height = 16, units = "cm", type = "cairo-png")
 
 #ggsave(plot=p3, filename="p3.eps", device=cairo_ps, width = 30, height = 24, units = "cm")
 
 p4 <- p3 + 
   facet_grid(. ~ property_type)  + 
   ggtitle("Housing Prices and PTAL Score, 1 September 2012 to 31 August 2017, by Housing Type") +
-  theme(legend.position = "bottom", legend.box = "horizontal") 
+  theme(legend.position = "bottom", legend.box = "horizontal", plot.title = element_text(size = 14)) 
 
 p4
 
-ggsave(plot=p4, filename="p4-ptal-EO.png", width = 25, height = 15, units = "cm", type = "cairo-png")
+ggsave(plot=p4, filename="p4-ptal-EO.png", width = 25, height = 16, units = "cm", type = "cairo-png")
 
 #ggsave(plot=p4, filename="p4.eps", device=cairo_ps, width = 30, height = 18, units = "cm")
 
