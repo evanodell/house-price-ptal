@@ -23,12 +23,10 @@ vignettes/*.pdf
 *.utf8.md
 *.knit.md
 .spyproject
-England postcodes.csv
 LSOA2011 AvPTAI2015.xlsx
 p1-ptal-EO.png
 p2-ptal-EO.png
 p3-ptal-EO.png
 p4-ptal-EO.png
-pp-2017.csv
-pp-complete.csv
-pp-london-complete.csv
+*.csv
+.Rproj.user
