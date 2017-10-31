@@ -9,10 +9,11 @@ pacman::p_load(magrittr)
 pacman::p_load(Cairo)
 pacman::p_load(rgdal)
 
+setwd("./prep") ## Keep stuff in this folder
 
 #### Match average number of rooms data from file 4
 
-lsoa_population <- read_csv("/csv_data/lsoa/KS101EW.csv") #KS101EW - population
+lsoa_population <- read_csv("csv_data/lsoa/KS101EW.csv") #KS101EW - population
 
 lsoa_population <- rename(lsoa_population, 
                           geography_code = `geography code`,
@@ -26,7 +27,7 @@ lsoa_population <- rename(lsoa_population,
                           hectares = `Variable: Area (Hectares); measures: Value`,
                           density = `Variable: Density (number of persons per hectare); measures: Value`)
 
-lsoa_household_comp <- read_csv("/csv_data/lsoa/KS105EW.csv") #    KS105EW - household composition
+lsoa_household_comp <- read_csv("csv_data/lsoa/KS105EW.csv") #    KS105EW - household composition
 
 lsoa_household_comp <- rename(lsoa_household_comp, 
                               geography_code = `geography code`,
@@ -54,7 +55,7 @@ lsoa_household_comp <- rename(lsoa_household_comp,
                               other_type_all_65_plus=`Household Composition: Other household types: All aged 65 and over; measures: Value`,
                               other_type_other=`Household Composition: Other household types: Other; measures: Value`)
 
-lsoa_dwellings <- read_csv("/csv_data/lsoa/KS401EW.csv")# KS401EW - dwellings
+lsoa_dwellings <- read_csv("csv_data/lsoa/KS401EW.csv")# KS401EW - dwellings
 
 lsoa_dwellings <- rename(lsoa_dwellings, 
                          geography_code = `geography code`,
@@ -75,7 +76,7 @@ lsoa_dwellings <- rename(lsoa_dwellings,
                          caravan=`Dwelling Type: Caravan or other mobile or temporary structure; measures: Value`)
 
 
-lsoa_rooms <- read_csv("/csv_data/lsoa/KS403EW.csv")#     KS403EW - rooms, bedrooms, central heating
+lsoa_rooms <- read_csv("csv_data/lsoa/KS403EW.csv")#     KS403EW - rooms, bedrooms, central heating
 
 lsoa_rooms <- rename(lsoa_rooms, 
                      geography_code = `geography code`,
@@ -92,7 +93,7 @@ lsoa_rooms <- rename(lsoa_rooms,
 
 
 
-lsoa_crime <- read_csv("/csv_data/MPS_LSOA_Level_Crime.csv")
+lsoa_crime <- read_csv("csv_data/MPS_LSOA_Level_Crime.csv")
 
 lsoa_crime <- rename(lsoa_crime,
                      geography_code = `LSOA Code`,
@@ -128,7 +129,7 @@ lsoa_data$terraced_percent <- lsoa_data$terraced/lsoa_data$household_spaces
 
 lsoa_data$flats_percent <- lsoa_data$flats/lsoa_data$household_spaces
 
-lsoa_2011 <- read_csv("/csv_data/London_postcode-ONS-postcode-Directory-May15.csv")
+lsoa_2011 <- read_csv("csv_data/London_postcode-ONS-postcode-Directory-May15.csv")
 
 glimpse(lsoa_2011)
 
@@ -140,13 +141,13 @@ lsoa_2011 <- rename(lsoa_2011,
 
 lsoa_2011$postcode <- gsub(" ", "", lsoa_2011$postcode)
 
-fare_zone <- read_csv("/csv_data/MyLondon_fare_zone_OA.csv") # from here: https://data.london.gov.uk/dataset/mylondon
+fare_zone <- read_csv("csv_data/MyLondon_fare_zone_OA.csv") # from here: https://data.london.gov.uk/dataset/mylondon
 
 fare_zone <- rename(fare_zone,
                     fare_zone = Fare_Zone,
                     oa11=OA11CD)
 
-travel_to_bank <- read_csv("/csv_data/MyLondon_traveltime_to_Bank_station_OA.csv")
+travel_to_bank <- read_csv("csv_data/MyLondon_traveltime_to_Bank_station_OA.csv")
 
 travel_to_bank <- rename(travel_to_bank, 
                          oa11=OA11CD)
@@ -155,11 +156,11 @@ lsoa_2011 <- lsoa_2011 %>% left_join(fare_zone) %>% left_join(travel_to_bank)
 
 glimpse(lsoa_2011)
 
-pp_london_complete <- read_csv("/csv_data/pp-london-complete-2012-2017.csv")
+pp_london_complete <- read_csv("csv_data/pp-london-complete-2012-2017.csv")
 
 pp_london_complete$postcode <- gsub(" ", "", pp_london_complete$postcode)
 
-pp_london_complete$property_type <- as.factor(pp_london_complete$property_type)
+#pp_london_complete$property_type <- as.factor(pp_london_complete$property_type)
 
 pp_london_complete <- pp_london_complete[is.na(pp_london_complete$property_type)==FALSE
                                          & pp_london_complete$property_type!="O",]
@@ -177,7 +178,7 @@ pp_london_group <- pp_london_join %>%
 
 glimpse(pp_london_group)
 
-tpal_lsoa2011 <- read_excel("LSOA2011 AvPTAI2015.xlsx")
+tpal_lsoa2011 <- read_excel("csv_data/LSOA2011 AvPTAI2015.xlsx")
 
 names(tpal_lsoa2011)[names(tpal_lsoa2011)=="LSOA2011"] <- "geography_code"
 
@@ -191,25 +192,21 @@ pp_london_2012_2017 <- left_join(tpal_lsoa2011, pp_london_group)
 
 glimpse(pp_london_2012_2017)
 
-pp_london_2012_2017$geography_code <- as.factor(pp_london_2012_2017$geography_code)
-
-x <- pp_london_lsoa %>% 
-  group_by(geography_code) %>%
-  summarise(no_rows = length(geography_code))
-
 lsoa_data$date <- NULL
 
 lsoa_data$rural_urban <- NULL
 
 pp_london_lsoa <- left_join(pp_london_2012_2017, lsoa_data)
 
+#pp_london_lsoa[pp_london_lsoa$property_type!="O",]
+
 pp_london_lsoa$property_type <- recode(pp_london_lsoa$property_type,
                                        "S" = "Semi-detached",
                                        "T" = "Terraced",
                                        "D" = "Detached",
-                                       "F" = "Flat",
-                                       "O" = "Other")
-pp_london_lsoa$property_type <- factor(pp_london_lsoa$property_type, levels=c("Detached", "Semi-detached", "Terraced", "Flat", "Other"))
+                                       "F" = "Flat")
+
+pp_london_lsoa$property_type <- factor(pp_london_lsoa$property_type, levels=c("Detached", "Semi-detached", "Terraced", "Flat"))
 
 glimpse(pp_london_lsoa)
 
@@ -272,8 +269,6 @@ lm_flats <- lm(average_rooms_per_household ~ flats_percent, data=subset(pp_londo
 pp_london_lsoa$predicted_rooms[pp_london_lsoa$property_type=="Flat"] <-  predict(lm_flats, data=subset(pp_london_lsoa,property_type=="Flat"))
 
 glimpse(pp_london_lsoa)
-
-pp_london_lsoa$property_type <- as.factor(as.character(pp_london_lsoa$property_type))
 
 
 pp_london_lsoa$inner_outer <- ifelse(pp_london_lsoa$geography_code %in% list("E09000001",

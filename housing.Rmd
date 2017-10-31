@@ -12,7 +12,7 @@ This map combines price paid data from 2012-2017 with the PTAL scores produced b
 
 ## Bang for Buck Score
 
-The bang for buck score is the percentile ranking of the normalised PTAL score multiplied by the inverse normalised estimated price-per-room.
+The bang for buck score is the percentile ranking of the normalised (range of 0-1) PTAL score multiplied by the inverse normalised (range of -1-1) estimated price-per-room.
 
 ## Estimating rooms in a property
 

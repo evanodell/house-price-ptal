@@ -29,45 +29,52 @@ shinyUI(
     column(5, offset = 1,
     
 
-    selectInput("property_type", "Property Type:",
+    selectInput("property_type", 
+                "Property Type:",
                 c("Flat",
                   "Terraced",
-                  "Semi-detatched",
-                  "Detatched")), 
+                  "Semi-detached",
+                  "Detached")), 
     
-    numericInput("max_price", "Max Price (in £)", 37000000, min = 1, max = 37000000, step = NA,
+    numericInput("max_price", 
+                 "Max Price (in £)", 
+                 37000000, 
+                 min = 14000, 
+                 max = 37000000, 
+                 step = NA,
                  width = NULL)
            ),
     
     column(5, 
-    checkboxGroupInput("fare_zone", "Travel Zone:",
-                       c("1", "2", "3", "4", "5", "6"),
-                       selected = c("1", "2", "3", "4", "5", "6"), inline = TRUE
+    checkboxGroupInput("fare_zone", 
+                       "Travel Zone:",
+                       c(1, 2, 3, 4, 5, 6),
+                       selected = c(1, 2, 3, 4, 5, 6), 
+                       inline = TRUE
                        ),
     
-    checkboxGroupInput("ptal_level", "PTAL Level",
+    checkboxGroupInput("ptal_level", 
+                       "PTAL Level (Higher is more accessible)",
                        c("1a", "1b", "2", "3", "4", "5", "6a", "6b"),
-                       selected =  c("1a", "1b", "2", "3", "4", "5", "6a", "6b"), inline = TRUE
+                       selected =  c("1a", "1b", "2", "3", "4", "5", "6a", "6b"), 
+                       inline = TRUE
                        )
     )),
     
     em(p("Note, the map is very big and can take a long time to load. Please be patient.")),
     
-    #textOutput("text"),
-    
-    
-    # div(## Loading intro animation
-    #   id = "loading-content",
-    #   
-    #   h2("Loading...")
-    # ),
+    div(## Loading intro animation
+      id = "loading-content",
 
-      # hidden(
-      #   div(
-      #     id = "app-content",
+      h2("Loading...")
+    ),
+
+       # hidden(
+       #   div(
+       #     id = "app-content",
     leafletOutput("map", height = "600px"),
-    #   )
-    # ),
+     #   )
+     # ),
     #actionButton("reset_button", "Reset view")
     
     # 
@@ -76,7 +83,5 @@ shinyUI(
     # )
     
     includeMarkdown("housing.Rmd")
-    
-    
     
 ))
