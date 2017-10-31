@@ -7,7 +7,7 @@ pacman::p_load(scales)
 pacman::p_load(magrittr)
 pacman::p_load(Cairo)
 
-pp_london_complete <- read_csv("pp-london-complete-2012-2017.csv")
+pp_london_complete <- read_csv("/csv_data/pp-london-complete-2012-2017.csv")
 
 ## Recoding pp_london_complete$property_type
 pp_london_complete$property_type <- recode(pp_london_complete$property_type,
@@ -29,7 +29,7 @@ pp_london_complete$new_build <- recode(pp_london_complete$new_build,
                             "N" = FALSE,
                             "Y" = TRUE)
 
-england_postcodes <- read_csv("England postcodes.csv")
+england_postcodes <- read_csv("/csv_data/England postcodes.csv")
 
 names(england_postcodes)[names(england_postcodes)=="Postcode"] <- "postcode"
 names(england_postcodes)[names(england_postcodes)=="Longitude"] <- "longitude"
@@ -114,9 +114,9 @@ p3 <- ggplot(pp_london_2012_2017, aes(x = ptal_score, y = price)) +
 
 p3
 
-ggsave(plot=p3, filename="p3-ptal-EO.png", width = 25, height = 16, units = "cm", type = "cairo-png")
+ggsave(plot=p3, filename="images/p3-ptal-EO.png", width = 25, height = 16, units = "cm", type = "cairo-png")
 
-#ggsave(plot=p3, filename="p3.eps", device=cairo_ps, width = 30, height = 24, units = "cm")
+#ggsave(plot=p3, filename="images/p3.eps", device=cairo_ps, width = 30, height = 24, units = "cm")
 
 p4 <- p3 + 
   facet_grid(. ~ property_type)  + 
@@ -125,7 +125,7 @@ p4 <- p3 +
 
 p4
 
-ggsave(plot=p4, filename="p4-ptal-EO.png", width = 25, height = 16, units = "cm", type = "cairo-png")
+ggsave(plot=p4, filename="images/p4-ptal-EO.png", width = 25, height = 16, units = "cm", type = "cairo-png")
 
-#ggsave(plot=p4, filename="p4.eps", device=cairo_ps, width = 30, height = 18, units = "cm")
+#ggsave(plot=p4, filename="images/p4.eps", device=cairo_ps, width = 30, height = 18, units = "cm")
 

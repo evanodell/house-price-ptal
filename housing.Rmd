@@ -1,0 +1,20 @@
+---
+title: "housing"
+author: "Evan Odell"
+date: "31 October 2017"
+output: html_document
+---
+
+
+# Methodology
+
+This map combines price paid data from 2012-2017 with the PTAL scores produced by TFL, which show how connected to public transit a given area is.
+
+## Bang for Buck Score
+
+The bang for buck score is the percentile ranking of the normalised PTAL score multiplied by the inverse normalised estimated price-per-room.
+
+## Estimating rooms in a property
+
+The census data I used has the average number of rooms in a property in each LSOA, as well as the type of house, but does not break down property size by house type. I used linear regressions between the average number of rooms in each household and the percentage of properties in each housing type to predict the average number of rooms per housing type in each area.
+

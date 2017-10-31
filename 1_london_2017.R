@@ -7,7 +7,7 @@ pacman::p_load(scales)
 pacman::p_load(magrittr)
 pacman::p_load(Cairo)
 
-pp_2017 <- read_csv("pp-2017.csv", col_names = FALSE)
+pp_2017 <- read_csv("/csv_data/pp-2017.csv", col_names = FALSE)
 
 pp_2017 <- rename(pp_2017, 
                   transaction = X1,
@@ -49,7 +49,7 @@ pp_2017$new_build <- recode(pp_2017$new_build,
                "N" = FALSE,
                "Y" = TRUE)
 
-england_postcodes <- read_csv("England postcodes.csv")
+england_postcodes <- read_csv("/csv_data/England postcodes.csv")
 
     names(england_postcodes)[names(england_postcodes)=="Postcode"] <- "postcode"
     names(england_postcodes)[names(england_postcodes)=="Longitude"] <- "longitude"
@@ -137,9 +137,9 @@ p1 <- ggplot(pp_london_2017, aes(x = ptal_score, y = price)) +
 
 p1
 
-ggsave(plot=p1, filename="p1-ptal-EO.png", width = 25, height = 16, units = "cm", type = "cairo-png", dpi = 300)
+ggsave(plot=p1, filename="images/p1-ptal-EO.png", width = 25, height = 16, units = "cm", type = "cairo-png", dpi = 300)
 
-#ggsave(plot=p1, filename="p1.eps", device=cairo_ps, width = 30, height = 24, units = "cm")
+#ggsave(plot=p1, filename="images/p1.eps", device=cairo_ps, width = 30, height = 24, units = "cm")
 
 p2 <- p1 + 
   facet_grid(. ~ property_type) + 
@@ -148,9 +148,9 @@ p2 <- p1 +
 
 p2
 
-ggsave(plot=p2, filename="p2-ptal-EO.png", width = 25, height = 16, units = "cm", type = "cairo-png")
+ggsave(plot=p2, filename="images/p2-ptal-EO.png", width = 25, height = 16, units = "cm", type = "cairo-png")
 
-#ggsave(plot=p2, filename="p2.eps", device=cairo_ps, width = 30, height = 18, units = "cm")
+#ggsave(plot=p2, filename="images/p2.eps", device=cairo_ps, width = 30, height = 18, units = "cm")
 
 
 v <- pp_london_2017[pp_london_2017$ptal_level=="6a" & pp_london_2017$property_type=="Detached",]
