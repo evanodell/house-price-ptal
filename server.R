@@ -67,11 +67,14 @@ shinyServer(function(input, output, session) {
     
     london_map$price_per_room <- london_map$price/london_map$predicted_rooms
     
-    london_map$price_per_room[is.na(london_map$price)] <- NA
+    #london_map$price_per_room[is.na(london_map$price)] <- NA
 
-    london_map$bang_for_buck <- as.numeric(perc.rank((rescale(london_map$price_per_room, to=c(-1,1), na.rm=TRUE)*-1)*rescale(london_map$ptal_score, to=c(0,1), na.rm=TRUE)))
+    london_map$bang_for_buck <- as.numeric(perc.rank(
+      ((rescale(london_map$price_per_room, to=c(-1,1), na.rm=TRUE)*-1)*
+        rescale(london_map$ptal_score, to=c(0,1), na.rm=TRUE))*
+        (rescale(london_map$price, to=c(0,1), na.rm=TRUE)*-1)))
     
-    london_map$bang_for_buck[is.na(london_map$price)] <- NA
+    #london_map$bang_for_buck[is.na(london_map$price)] <- NA
     
     pal <-  colorNumeric("RdYlGn", domain=as.numeric(london_map$bang_for_buck))
     
