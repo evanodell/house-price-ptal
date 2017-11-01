@@ -28,13 +28,13 @@ shinyUI(
     
     column(5, offset = 1,
     
-
     selectInput("property_type", 
-                "Property Type:",
+                "Property Type",
                 c("Flat",
                   "Terraced",
                   "Semi-detached",
-                  "Detached")), 
+                  "Detached")
+              ), 
     
     numericInput("max_price", 
                  "Max Price (in £)", 
@@ -43,11 +43,11 @@ shinyUI(
                  max = 37000000, 
                  step = NA,
                  width = NULL)
-           ),
+              ),
     
     column(5, 
     checkboxGroupInput("fare_zone", 
-                       "Travel Zone:",
+                       "Travel Zone",
                        c(1, 2, 3, 4, 5, 6),
                        selected = c(1, 2, 3, 4, 5, 6), 
                        inline = TRUE
