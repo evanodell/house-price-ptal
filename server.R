@@ -19,7 +19,7 @@ shinyServer(function(input, output, session) {
   
   london_data_subset <- reactive({
     
-    london_data <- london_data[c("geography_code", "ptal_score", "ptal_level", "price", "property_type", "fare_zone", "predicted_rooms")]
+    london_data <- london_data[c("geography_code", "ptal_score", "ptal_level", "price", "property_type", "fare_zone", "predicted_rooms", "inner_outer")]
     
     london_data[london_data$property_type == input$property_type 
               & london_data$fare_zone %in% input$fare_zone 
@@ -34,6 +34,24 @@ shinyServer(function(input, output, session) {
   # - Pollution 
   # - Schools 
   # - Age, etc
+  # 
+  # london_data$price_per_room <- london_data$price/london_data$predicted_rooms
+  # 
+  # london_data$ptal_score2 <- (rescale(london_data$ptal_score, to = c(0, 1), na.rm = TRUE) * -1)
+  # 
+  # london_data$price_per_room2 <- (rescale(london_data$price_per_room, to = c(0, 1), na.rm = TRUE) * -1)
+  # 
+  # london_data$bang_for_buck2 <- perc.rank(london_data$ptal_score) * (perc.rank(london_data$price_per_room) * -1)
+  # 
+  # london_data$bang_for_buck3  <- as.numeric(perc.rank(((perc.rank(london_data$price_per_room) * -1) * #, to = c(-1, 1), na.rm = TRUE
+  #                                                        perc.rank(london_data$ptal_score)) * #, to = c(0, 1), na.rm = TRUE
+  #                                                       (rescale(london_data$price, to = c(-1, 0), na.rm = TRUE) * -1)))
+  # 
+  # london_data$bang_for_buck <- as.numeric(perc.rank(((perc.rank(london_data$price_per_room) * -1) * #, to = c(-1, 1), na.rm = TRUE
+  #                                                    perc.rank(london_data$ptal_score)) / #, to = c(0, 1), na.rm = TRUE
+  #                                                    (rescale(london_data$price, to = c(0, 1), na.rm = TRUE))))
+  # 
+  # qplot(x=ptal_score, y=ptal_score2, data=london_data)
   
   ## Function to render map
   output$map <- renderLeaflet({
@@ -42,8 +60,8 @@ shinyServer(function(input, output, session) {
     
     london_map$price_per_room <- london_map$price/london_map$predicted_rooms
     
-    london_map$bang_for_buck <- as.numeric(perc.rank(((rescale(london_map$price_per_room, to = c(-1, 1), na.rm = TRUE) * -1) * 
-                                                        rescale(london_map$ptal_score, to = c(0, 1), na.rm = TRUE)) * 
+    london_map$bang_for_buck <- as.numeric(perc.rank(((1/perc.rank(london_map$price_per_room)) * #, to = c(-1, 1), na.rm = TRUE
+                                                        perc.rank(london_map$ptal_score)) / # , to = c(0, 1), na.rm = TRUE
                                                        (rescale(london_map$price, to = c(-1, 0), na.rm = TRUE) * -1)))
     
     pal <- colorNumeric("RdYlGn", domain = as.numeric(london_map$bang_for_buck))
