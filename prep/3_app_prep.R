@@ -150,9 +150,27 @@ fare_zone <- rename(fare_zone,
 travel_to_bank <- read_csv("csv_data/MyLondon_traveltime_to_Bank_station_OA.csv")
 
 travel_to_bank <- rename(travel_to_bank, 
-                         oa11=OA11CD)
+                         oa11 = OA11CD)
 
-lsoa_2011 <- lsoa_2011 %>% left_join(fare_zone) %>% left_join(travel_to_bank)
+oa_lsoa_match_data <- read_csv("~/Documents/GitHub/house-price-ptal/prep/csv_data/OA11_LSOA11_MSOA11_LAD11_EW_LUv2.csv")
+
+oa_lsoa_match_data <- rename(oa_lsoa_match_data, 
+                         geography_code=LSOA11CD,
+                         oa11 = OA11CD)
+
+travel_to_bank_join <- left_join(travel_to_bank, oa_lsoa_match_data)
+
+travel_to_bank_avg <- travel_to_bank_join %>% 
+                  group_by(geography_code) %>%
+                  summarise(driving_distance_miles=mean(driving_distance_miles),
+                            driving_time_mins=mean(driving_time_mins),
+                            public_transport_time_mins=mean(public_transport_time_mins),
+                            cycling_distance_miles=mean(cycling_distance_miles),
+                            cycling_time_mins=mean(cycling_time_mins),
+                            walking_distance_miles=mean(walking_distance_miles),
+                            walking_time_mins=mean(walking_time_mins))
+
+lsoa_2011 <- lsoa_2011 %>% left_join(fare_zone) %>% left_join(oa_lsoa_match_data)
 
 glimpse(lsoa_2011)
 
@@ -173,8 +191,9 @@ pp_london_group <- pp_london_join %>%
   group_by(geography_code, property_type) %>%
   summarise(price = mean(price),
             number_sales = n_distinct(transaction),
-            public_transport_time_mins = mean(public_transport_time_mins),
             fare_zone = round(mean(fare_zone)))
+
+#pp_london_group <- pp_london_group %>% left_join(lsoa_2011)
 
 glimpse(pp_london_group)
 
@@ -188,7 +207,9 @@ names(tpal_lsoa2011)[names(tpal_lsoa2011)=="PTAL"] <- "ptal_level"
 
 glimpse(tpal_lsoa2011)
 
-pp_london_2012_2017 <- left_join(tpal_lsoa2011, pp_london_group)
+la_match <- unique(lsoa_2011[c("geography_code", "LSOA11NM", "MSOA11CD", "MSOA11NM", "LAD11CD", "LAD11NM", "LAD11NMW")])
+
+pp_london_2012_2017 <- tpal_lsoa2011 %>% left_join(pp_london_group) %>% left_join(la_match)
 
 glimpse(pp_london_2012_2017)
 
@@ -210,7 +231,51 @@ pp_london_lsoa$property_type <- factor(pp_london_lsoa$property_type, levels=c("D
 
 glimpse(pp_london_lsoa)
 
-london_shape <- readOGR("london-boundary/London_lsoa.shp", layer = "london_lsoa")
+
+### Predicting average number of rooms-----------------------
+
+pp_london_lsoa$predicted_rooms <- NA
+
+lm_detached <- lm(average_rooms_per_household ~ detached_percent , data=subset(pp_london_lsoa,property_type=="Detached"))
+
+pp_london_lsoa$predicted_rooms[pp_london_lsoa$property_type=="Detached"] <- predict(lm_detached, data=subset(pp_london_lsoa,property_type=="Detached"))
+
+lm_semi_detached<- lm(average_rooms_per_household ~ semi_detached_percent, data=pp_london_lsoa)
+
+pp_london_lsoa$predicted_rooms[pp_london_lsoa$property_type=="Semi-detached"] <- predict(lm_semi_detached, data=subset(pp_london_lsoa, property_type=="Semi-detached"))
+
+lm_terraced <- lm(average_rooms_per_household ~ terraced_percent, data=subset(pp_london_lsoa,property_type=="Terraced"))
+
+pp_london_lsoa$predicted_rooms[pp_london_lsoa$property_type=="Terraced"] <-  predict(lm_terraced, data=subset(pp_london_lsoa,property_type=="Terraced"))
+
+lm_flats <- lm(average_rooms_per_household ~ flats_percent, data=subset(pp_london_lsoa,property_type=="Flat"))
+
+pp_london_lsoa$predicted_rooms[pp_london_lsoa$property_type=="Flat"] <-  predict(lm_flats, data=subset(pp_london_lsoa,property_type=="Flat"))
+
+glimpse(pp_london_lsoa)
+
+
+pp_london_lsoa$inner_outer <- ifelse(pp_london_lsoa$LAD11CD %in% list("E09000001",
+                                                                  "E09000007",
+                                                                  "E09000011",
+                                                                  "E09000012",
+                                                                  "E09000013",
+                                                                  "E09000019",
+                                                                  "E09000020",
+                                                                  "E09000022",
+                                                                  "E09000023",
+                                                                  "E09000028",
+                                                                  "E09000030",
+                                                                  "E09000032",
+                                                                  "E09000033"), "Inner", "Outer")
+
+glimpse(pp_london_lsoa)
+
+write_rds(pp_london_lsoa, "london_data.rds")
+
+# map creation ------------------------------------------------------------
+
+london_shape <- readOGR("london-boundary/London_lsoa.shp")
 proj4string(london_shape) <- CRS("+init=epsg:27700")
 london_shape <- spTransform(london_shape, CRS("+init=epsg:4326"))
 
@@ -246,46 +311,7 @@ london_shape <- full_join(london_shape, travel)
 
 write_rds(london_shape, "london_shape.rds")
 
-test_map <- left_join(london_shape, pp_london_lsoa)
 
-### Predicting average number of rooms-----------------------
-
-pp_london_lsoa$predicted_rooms <- NA
-
-lm_detached <- lm(average_rooms_per_household ~ detached_percent , data=subset(pp_london_lsoa,property_type=="Detached"))
-
-pp_london_lsoa$predicted_rooms[pp_london_lsoa$property_type=="Detached"] <- predict(lm_detached, data=subset(pp_london_lsoa,property_type=="Detached"))
-
-lm_semi_detached<- lm(average_rooms_per_household ~ semi_detached_percent, data=pp_london_lsoa)
-
-pp_london_lsoa$predicted_rooms[pp_london_lsoa$property_type=="Semi-detached"] <- predict(lm_semi_detached, data=subset(pp_london_lsoa,property_type=="Semi-detached"))
-
-lm_terraced <- lm(average_rooms_per_household ~ terraced_percent, data=subset(pp_london_lsoa,property_type=="Terraced"))
-
-pp_london_lsoa$predicted_rooms[pp_london_lsoa$property_type=="Terraced"] <-  predict(lm_terraced, data=subset(pp_london_lsoa,property_type=="Terraced"))
-
-lm_flats <- lm(average_rooms_per_household ~ flats_percent, data=subset(pp_london_lsoa,property_type=="Flat"))
-
-pp_london_lsoa$predicted_rooms[pp_london_lsoa$property_type=="Flat"] <-  predict(lm_flats, data=subset(pp_london_lsoa,property_type=="Flat"))
-
-glimpse(pp_london_lsoa)
-
-
-pp_london_lsoa$inner_outer <- ifelse(pp_london_lsoa$geography_code %in% list("E09000001",
-                                                                  "E09000007",
-                                                                  "E09000011",
-                                                                  "E09000012",
-                                                                  "E09000013",
-                                                                  "E09000019",
-                                                                  "E09000020",
-                                                                  "E09000022",
-                                                                  "E09000023",
-                                                                  "E09000028",
-                                                                  "E09000030",
-                                                                  "E09000032",
-                                                                  "E09000033"), "Inner", "Outer")
-
-write_rds(pp_london_lsoa, "london_data.rds")
 
 pp_london_detached_lsoa <- pp_london_lsoa[pp_london_lsoa$property_type=="Detached" & 
                                                is.na(pp_london_lsoa$property_type)==FALSE, ]
