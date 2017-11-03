@@ -31,10 +31,10 @@ This means that open plan properties are be given a higher price per room; e.g. 
 
 ### Bang for Buck Score
 
-The bang for buck score is the 1 over the percentile of the estimated price-per-room, multiplied by the percentile of the PTAL score, divided by the inverse scaled (range of -1 to 0) price.
+The bang for buck score is the 1 over the percentile of the estimated price-per-room ($\omega$), multiplied by the percentile of the PTAL score ($\tau$), divided by the inverse scaled (range of -1 to 0) price ($\rho$).
 
-\begin{equation}
-\frac{(\frac{1}{(\frac{rank(\omega)}{\Sigma\omega})}) \times \frac{rank(\omega)}{\Sigma\tau}}{\rho}
+\begin{equation}\Huge
+ \frac{\Bigg(\frac{1}{\bigg(\frac{rank(\omega)}{\Sigma\omega}\bigg)}\Bigg) \times \frac{rank(\tau)}{\Sigma\tau}}{\rho}
 \end{equation}
 
 The score is calculated based on all areas included in the data; e.g. including only zone 1 will produce scores relative to all other properties in zone 1.
