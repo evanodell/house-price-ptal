@@ -79,7 +79,7 @@ shinyServer(function(input, output, session) {
       addLegend("topright",
                 pal = pal,
                 values = ~as.numeric(bang_for_buck),
-                title = paste0("Bank for Buck (", input$property_type, ")"),
+                title = paste0("Bank for Buck Score"),
                 opacity = 1)
     
     return(map_of_london)
