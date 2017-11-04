@@ -21,7 +21,7 @@ shinyServer(function(input, output, session) {
     
     london_data <- london_data[c("geography_code", "ptal_score", "ptal_level", "price", "property_type", "fare_zone", "predicted_rooms")]
     
-    london_data[london_data$property_type == input$property_type 
+    london_data[london_data$property_type %in% input$property_type 
               & london_data$fare_zone %in% input$fare_zone 
               & london_data$ptal_level %in% input$ptal_level 
               & london_data$price <= input$max_price, ]

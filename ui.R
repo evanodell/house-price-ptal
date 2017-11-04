@@ -28,12 +28,13 @@ shinyUI(
     
     column(5, offset = 1,
     
-    selectInput("property_type", 
+           checkboxGroupInput("property_type", 
                 "Property Type",
                 c("Flat",
                   "Terraced",
                   "Semi-detached",
-                  "Detached")
+                  "Detached"),
+                selected = "Flat"
               ), 
     
     numericInput("max_price", 
