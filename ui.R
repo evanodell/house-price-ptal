@@ -59,8 +59,19 @@ shinyUI(
                        c("1a", "1b", "2", "3", "4", "5", "6a", "6b"),
                        selected =  c("1a", "1b", "2", "3", "4", "5", "6a", "6b"), 
                        inline = TRUE
-                       )
+                       ),
+    
+    
+    checkboxGroupInput("inner_outer_london",
+                       "Areas of London",
+                       c("Inner", "Outer"),
+                       selected =  c("Inner", "Outer"),
+                       inline = TRUE
+    )
     )),
+    
+    
+    
     
     em(p("Note, the map is very big and can take a long time to load. Please be patient.")),
     
@@ -83,6 +94,6 @@ shinyUI(
     #             rownames(subset(brewer.pal.info, category %in% c("seq", "div")))
     # )
     
-    includeMarkdown("housing.Rmd")
+    withMathJax(includeMarkdown("housing.Rmd"))
     
 ))

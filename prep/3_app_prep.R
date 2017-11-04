@@ -289,6 +289,8 @@ names(london_shape)[names(london_shape)=="LSOA11CD"] <- "geography_code"
 
 london_shape$geography_code <- as.character(london_shape$geography_code)
 
+london_shape$LAD11NM <- as.character(london_shape$LAD11NM)
+
 # london_shape$inner_outer <- ifelse(london_shape$LAD11CD %in% list("E09000001",
 #                                                   "E09000007",
 #                                                   "E09000011",
