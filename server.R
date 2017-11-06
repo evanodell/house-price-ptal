@@ -52,7 +52,7 @@ shinyServer(function(input, output, session) {
     
     bang_buck_labels <- paste0("</strong>Location: ", london_map$LSOA11NM, "</strong></br>",
                                "Average Price: £", prettyNum(round(as.numeric(london_map$price),2), big.mark = ","), "</br>",
-                               "Average Price Per Room: £", prettyNum(round(as.numeric(london_map$price_per_room),2), big.mark = ","), "</br>",
+                               "Estimated Average Price Per Room: £", prettyNum(round(as.numeric(london_map$price_per_room),2), big.mark = ","), "</br>",
                                "Number of Sales: ", london_map$number_sales, "</br>",
                                "PTAL Score: ", london_map$ptal_score, "</br>",
                                "PTAL Level: ", london_map$ptal_level, "</br>",
