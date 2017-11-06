@@ -8,7 +8,7 @@ output: html_document
 
 ## About this Map
 
-I've created this app in response to a request from [Mark Butcher](https://twitter.com/butcher_sl) to highlight specific areas of London with properties offering good value-for-money, relative to their transport accessibility. It is based on a [blog post](https://evanodell.com/blog/2017/10/20/housing-prices-and-transport-accessibility/) I wrote last month that looked at the general relation between price and transport accessibility. Green offers the highest value for money (what I've called bang for buck), while red is the lowest, based on transport accessibility in the local area, the absolute price of the property and the price-per-room.
+I've created this app in response to a request from [Mark Butcher](https://twitter.com/butcher_sl) to highlight specific areas of London with properties offering good value-for-money, relative to their transport accessibility. It is based on a [blog post](https://evanodell.com/blog/2017/10/20/housing-prices-and-transport-accessibility/) looking at the general relation between price and transport accessibility. Green offers the highest value for money (what I've called bang for buck), while red is the lowest, based on transport accessibility in the local area, the absolute price of the property and the price-per-room.
 
 Central London properties appear to offer the best value-for-money, provided you have the millions of pounds available to buy one. This is a consequence of both the incredibly high levels of transport accessibility and the apparent size of properties. The price per room of luxury flats in Kensington is much higher than the price-per-room of ex-council flats in Bethnal Green, as is the absolute price, but the transport accessibility scores are incredibly high compared to even other well-connected areas. The practical difference between a bus every 2 minutes and a bus every 3 minutes is unlikely to be very noticable.
 
@@ -16,7 +16,9 @@ Central London properties appear to offer the best value-for-money, provided you
 
 This map combines HM Land Registry's price paid data from September 2012 -- August 2017 with the [PTAL scores](https://data.london.gov.uk/dataset/public-transport-accessibility-levels) produced by TFL, which show how connected to public transport a given area is, in this case Lower Layer Super Output Areas (LSOA).
 
-Housing is divided into four types: flats, terraced houses, semi-detached houses and detached houses. Only one kind of housing can be displayed at a time. You can also subdivide by TFL travel zone and PTAL level, and put a maximum price on properties.
+Housing is divided into four types: flats, terraced houses, semi-detached houses and detached houses. The data currently combines leasehold sales and freehold sales, which may skew prices somewhat if there are substantial numbers of short-term leaseholds in an area. You can subdivide by TFL travel zone, PTAL level, inner and outer London, and individual local authorities. You can also impose a maximum average price on properties.
+
+Be aware that there is wide variations in the number of transactions per housing type and LSOA. Some areas only have one transaction, while others have over 1,000 in the time period covered.
 
 ### Estimating Rooms in a Property
 
@@ -33,7 +35,7 @@ This means that open plan properties are be given a higher price per room; e.g. 
 
 The bang for buck score is the 1 over the percentile of the estimated price-per-room ($\omega$), multiplied by the percentile of the PTAL score ($\tau$), divided by the inverse scaled (range of -1 to 0) price ($\rho$).
 
-\begin{equation}\Huge
+\begin{equation}\large
  \frac{\Bigg(\frac{1}{\bigg(\frac{rank(\omega)}{\Sigma\omega}\bigg)}\Bigg) \times \frac{rank(\tau)}{\Sigma\tau}}{\rho}
 \end{equation}
 
@@ -50,3 +52,5 @@ Data has been taken from the ONS, the London Data Store and HM Land Registry. [P
 
 
 Going forward, I plan to incorporate additional variables into the bang for buck algorithm, including local crime rates, levels of deprivation, commuting times to central London, etc. If you have any requests or suggestiosn, spot any issues with the data, or anything else, you can [email me](mailto:evanodell91@gmail.com), or raise an issue on [GitHub](https://github.com/evanodell/house-price-ptal/issues).
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)

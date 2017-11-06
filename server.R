@@ -25,7 +25,8 @@ shinyServer(function(input, output, session) {
               & london_data$fare_zone %in% input$fare_zone 
               & london_data$ptal_level %in% input$ptal_level 
               & london_data$price <= input$max_price
-              & london_data$inner_outer %in% input$inner_outer_london, ]
+              & london_data$inner_outer %in% input$inner_outer_london
+              & london_data$LAD11NM %in% input$local_authority_area, ]
     
   })
   
@@ -43,13 +44,11 @@ shinyServer(function(input, output, session) {
     
     london_map$price_per_room <- london_map$price/london_map$predicted_rooms
     
-    london_map$bang_for_buck <- as.numeric(perc.rank(((1/perc.rank(london_map$price_per_room)) * #, to = c(-1, 1), na.rm = TRUE
-                                                        perc.rank(london_map$ptal_score)) / # , to = c(0, 1), na.rm = TRUE
+    london_map$bang_for_buck <- as.numeric(perc.rank(((1/perc.rank(london_map$price_per_room)) *
+                                                        perc.rank(london_map$ptal_score)) / 
                                                        (rescale(london_map$price, to = c(-1, 0), na.rm = TRUE) * -1)))
-    
-    pal <- colorNumeric("RdYlGn", domain = as.numeric(london_map$bang_for_buck))
-    
-    # bounds <- sf::st_bbox(london_shape_subset()) lat <- mean(bounds[1],bounds[3]) lng <- mean(bounds[2],bounds[4]) zoom <- 8
+      
+    pal <- colorNumeric(input$colour_scheme, domain = as.numeric(london_map$bang_for_buck))
     
     bang_buck_labels <- paste0("</strong>Location: ", london_map$LSOA11NM, "</strong></br>",
                                "Average Price: £", prettyNum(round(as.numeric(london_map$price),2), big.mark = ","), "</br>",

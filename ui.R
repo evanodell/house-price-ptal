@@ -43,8 +43,12 @@ shinyUI(
                  min = 14000, 
                  max = 37000000, 
                  step = NA,
-                 width = NULL)
-              ),
+                 width = NULL),
+
+    selectInput("colour_scheme", "Select Colour Scheme", row.names(RColorBrewer::brewer.pal.info), selected = "RdYlGn")
+    
+    ),
+    
     
     column(5, 
     checkboxGroupInput("fare_zone", 
@@ -61,17 +65,90 @@ shinyUI(
                        inline = TRUE
                        ),
     
-    
     checkboxGroupInput("inner_outer_london",
-                       "Areas of London",
+                       "Inner or Outer London",
                        c("Inner", "Outer"),
                        selected =  c("Inner", "Outer"),
                        inline = TRUE
-    )
+                      ),
+    
+    checkboxInput("select_local_authority", 
+                  "Show Local Authority Options"),
+  conditionalPanel(
+  condition = "input.select_local_authority == true",
+  selectInput("local_authority_area", 
+                "Select Local Authority",
+                c("Barking and Dagenham",
+                  "Barnet",
+                  "Bexley",
+                  "Brent",
+                  "Bromley",
+                  "Camden",
+                  "City of London",
+                  "Croydon",
+                  "Ealing",
+                  "Enfield",
+                  "Greenwich",
+                  "Hackney",
+                  "Hammersmith and Fulham",
+                  "Haringey",
+                  "Harrow",
+                  "Havering",
+                  "Hillingdon",
+                  "Hounslow",
+                  "Islington",
+                  "Kensington and Chelsea",
+                  "Kingston upon Thames",
+                  "Lambeth",
+                  "Lewisham",
+                  "Merton",
+                  "Newham",
+                  "Redbridge",
+                  "Richmond upon Thames",
+                  "Southwark",
+                  "Sutton",
+                  "Tower Hamlets",
+                  "Waltham Forest",
+                  "Wandsworth",
+                  "Westminster"),
+                  selected = c("Barking and Dagenham",
+                  "Barnet",
+                  "Bexley",
+                  "Brent",
+                  "Bromley",
+                  "Camden",
+                  "City of London",
+                  "Croydon",
+                  "Ealing",
+                  "Enfield",
+                  "Greenwich",
+                  "Hackney",
+                  "Hammersmith and Fulham",
+                  "Haringey",
+                  "Harrow",
+                  "Havering",
+                  "Hillingdon",
+                  "Hounslow",
+                  "Islington",
+                  "Kensington and Chelsea",
+                  "Kingston upon Thames",
+                  "Lambeth",
+                  "Lewisham",
+                  "Merton",
+                  "Newham",
+                  "Redbridge",
+                  "Richmond upon Thames",
+                  "Southwark",
+                  "Sutton",
+                  "Tower Hamlets",
+                  "Waltham Forest",
+                  "Wandsworth",
+                  "Westminster"),
+                multiple = TRUE)
+)
+    
+    #checkboxInput("travel_to_bank", "Include Travel Time to Bank Station", value = FALSE, width = NULL)
     )),
-    
-    
-    
     
     em(p("Note, the map is very big and can take a long time to load. Please be patient.")),
     
