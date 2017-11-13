@@ -50,7 +50,7 @@ shinyUI(
     ),
     
     
-    column(5, 
+    column(6, 
     checkboxGroupInput("fare_zone", 
                        "Travel Zone",
                        c(1, 2, 3, 4, 5, 6),
