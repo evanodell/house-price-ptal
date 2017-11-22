@@ -270,7 +270,7 @@ pp_london_lsoa$inner_outer <- ifelse(pp_london_lsoa$LAD11CD %in% list("E09000001
 
 glimpse(pp_london_lsoa)
 
-write_rds(pp_london_lsoa, "data/london_data.rds")
+write_rds(pp_london_lsoa, "app/data/london_data.rds")
 
 # map creation ------------------------------------------------------------
 
@@ -310,7 +310,7 @@ travel <- travel %>% group_by(geography_code) %>% summarise(full_fare_zone=mean(
 
 london_shape <- full_join(london_shape, travel)
 
-write_rds(london_shape, "london_shape.rds")
+write_rds(london_shape, "app/data/london_shape.rds")
 
 
 

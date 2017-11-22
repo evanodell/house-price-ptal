@@ -14,7 +14,7 @@ Central London properties appear to offer the best value-for-money, provided you
 
 ## Methodology
 
-This map combines HM Land Registry's price paid data from September 2012 -- August 2017 with the [PTAL scores](https://data.london.gov.uk/dataset/public-transport-accessibility-levels) produced by TFL, which show how connected to public transport a given area is, in this case Lower Layer Super Output Areas (LSOA).
+This map combines HM Land Registry's price paid data from September 2012 -- September 2017 inclusive with the [PTAL scores](https://data.london.gov.uk/dataset/public-transport-accessibility-levels) produced by TFL, which show how connected to public transport a given area is, in this case Lower Layer Super Output Areas (LSOA).
 
 Housing is divided into four types: flats, terraced houses, semi-detached houses and detached houses. The data currently combines leasehold sales and freehold sales, which may skew prices somewhat if there are substantial numbers of short-term leaseholds in an area. You can subdivide by TFL travel zone, PTAL level, inner and outer London, and individual local authorities. You can also impose a maximum average price on properties.
 
