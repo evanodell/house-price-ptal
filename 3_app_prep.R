@@ -207,7 +207,7 @@ names(tpal_lsoa2011)[names(tpal_lsoa2011)=="PTAL"] <- "ptal_level"
 
 glimpse(tpal_lsoa2011)
 
-#la_match <- unique(lsoa_2011[c("geography_code", "LSOA11NM", "MSOA11CD", "MSOA11NM", "LAD11CD", "LAD11NM", "LAD11NMW")])
+la_match <- unique(lsoa_2011[c("geography_code", "LSOA11NM", "MSOA11CD", "MSOA11NM", "LAD11CD", "LAD11NM", "LAD11NMW", "driving_distance_miles", "driving_time_mins", "public_transport_time_mins", "cycling_distance_miles", "cycling_time_mins", "walking_distance_miles", "walking_time_mins")])
 
 pp_london_2012_2017 <- tpal_lsoa2011 %>% left_join(pp_london_group) %>% left_join(la_match)
 
@@ -254,7 +254,6 @@ pp_london_lsoa$predicted_rooms[pp_london_lsoa$property_type=="Flat"] <-  predict
 
 glimpse(pp_london_lsoa)
 
-
 pp_london_lsoa$inner_outer <- ifelse(pp_london_lsoa$LAD11CD %in% list("E09000001",
                                                                   "E09000007",
                                                                   "E09000011",
@@ -271,7 +270,7 @@ pp_london_lsoa$inner_outer <- ifelse(pp_london_lsoa$LAD11CD %in% list("E09000001
 
 glimpse(pp_london_lsoa)
 
-write_rds(pp_london_lsoa, "london_data.rds")
+write_rds(pp_london_lsoa, "data/london_data.rds")
 
 # map creation ------------------------------------------------------------
 

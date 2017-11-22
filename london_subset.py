@@ -8,7 +8,7 @@ Created on Wed Oct 18 14:10:35 2017
 
 import pandas
 
-df = pandas.read_csv('pp-complete.csv', header=None, names = ["transaction",
+df = pandas.read_csv('csv_data/pp-complete.csv', header=None, names = ["transaction",
                                                        "price",
                                                        "date",
                                                        "postcode",
@@ -29,4 +29,4 @@ df = pandas.read_csv('pp-complete.csv', header=None, names = ["transaction",
 london_df = df.query('county == "GREATER LONDON" and date >= "2012-09-01"')
 
 
-london_df.to_csv('pp-london-complete-2012-2017.csv', index=False, header=True)
+london_df.to_csv('csv_data/pp-london-complete-2012-2017.csv', index=False, header=True)
