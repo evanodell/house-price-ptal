@@ -20,47 +20,47 @@ pacman::p_load(rgdal)
 
 #### Match average number of rooms data from file 4
 
-lsoa_population <- read_csv("csv_data/lsoa/KS101EW.csv") #KS101EW - population
-
-lsoa_population <- rename(lsoa_population, 
-                          geography_code = `geography code`,
-                          rural_urban = `Rural Urban`,
-                          all_residents = `Variable: All usual residents; measures: Value`,
-                          male = `Variable: Males; measures: Value`,
-                          female = `Variable: Females; measures: Value`,
-                          lives_in_household = `Variable: Lives in a household; measures: Value`,
-                          lives_in_communal = `Variable: Lives in a communal establishment; measures: Value`,
-                          schoolchild = `Variable: Schoolchild or full-time student aged 4 and over at their non term-time address; measures: Value`,
-                          hectares = `Variable: Area (Hectares); measures: Value`,
-                          density = `Variable: Density (number of persons per hectare); measures: Value`)
-
-lsoa_household_comp <- read_csv("csv_data/lsoa/KS105EW.csv") #    KS105EW - household composition
-
-lsoa_household_comp <- rename(lsoa_household_comp, 
-                              geography_code = `geography code`,
-                              rural_urban = `Rural Urban`,
-                              all_categories = `Household Composition: All categories: Household composition; measures: Value`,
-                              one_person = `Household Composition: One person household; measures: Value`,
-                              one_person_65_plus = `Household Composition: One person household: Aged 65 and over; measures: Value`,
-                              one_person_other = `Household Composition: One person household: Other; measures: Value`,
-                              one_family = `Household Composition: One family household; measures: Value`,
-                              one_family_all_65_plus = `Household Composition: One family only: All aged 65 and over; measures: Value`,
-                              one_family_married = `Household Composition: One family only: Married or same-sex civil partnership couple; measures: Value`,
-                              one_family_married_no_children = `Household Composition: One family only: Married or same-sex civil partnership couple: No children; measures: Value`,
-                              one_family_married_with_dependent = `Household Composition: One family only: Married or same-sex civil partnership couple: Dependent children; measures: Value`,
-                              one_family_married_non_dependent = `Household Composition: One family only: Married or same-sex civil partnership couple: All children non-dependent; measures: Value`,
-                              one_family_couple = `Household Composition: One family only: Cohabiting couple; measures: Value`,
-                              one_family_couple_no_children = `Household Composition: One family only: Cohabiting couple: No children; measures: Value`,
-                              one_family_couple_with_dependent = `Household Composition: One family only: Cohabiting couple: Dependent children; measures: Value`,
-                              one_family_couple_non_dependent = `Household Composition: One family only: Cohabiting couple: All children non-dependent; measures: Value`,
-                              one_family_lone_parent = `Household Composition: One family only: Lone parent; measures: Value`,
-                              one_family_lone_parent_with_dependent = `Household Composition: One family only: Lone parent: Dependent children; measures: Value`,
-                              one_family_lone_parent_non_dependent = `Household Composition: One family only: Lone parent: All children non-dependent; measures: Value`,
-                              other_type = `Household Composition: Other household types; measures: Value`,
-                              other_type_with_dependent = `Household Composition: Other household types: With dependent children; measures: Value`,
-                              other_type_students = `Household Composition: Other household types: All full-time students; measures: Value`,
-                              other_type_all_65_plus = `Household Composition: Other household types: All aged 65 and over; measures: Value`,
-                              other_type_other = `Household Composition: Other household types: Other; measures: Value`)
+# lsoa_population <- read_csv("csv_data/lsoa/KS101EW.csv") #KS101EW - population
+# 
+# lsoa_population <- rename(lsoa_population, 
+#                           geography_code = `geography code`,
+#                           rural_urban = `Rural Urban`,
+#                           all_residents = `Variable: All usual residents; measures: Value`,
+#                           male = `Variable: Males; measures: Value`,
+#                           female = `Variable: Females; measures: Value`,
+#                           lives_in_household = `Variable: Lives in a household; measures: Value`,
+#                           lives_in_communal = `Variable: Lives in a communal establishment; measures: Value`,
+#                           schoolchild = `Variable: Schoolchild or full-time student aged 4 and over at their non term-time address; measures: Value`,
+#                           hectares = `Variable: Area (Hectares); measures: Value`,
+#                           density = `Variable: Density (number of persons per hectare); measures: Value`)
+# 
+# lsoa_household_comp <- read_csv("csv_data/lsoa/KS105EW.csv") #    KS105EW - household composition
+# 
+# lsoa_household_comp <- rename(lsoa_household_comp, 
+#                               geography_code = `geography code`,
+#                               rural_urban = `Rural Urban`,
+#                               all_categories = `Household Composition: All categories: Household composition; measures: Value`,
+#                               one_person = `Household Composition: One person household; measures: Value`,
+#                               one_person_65_plus = `Household Composition: One person household: Aged 65 and over; measures: Value`,
+#                               one_person_other = `Household Composition: One person household: Other; measures: Value`,
+#                               one_family = `Household Composition: One family household; measures: Value`,
+#                               one_family_all_65_plus = `Household Composition: One family only: All aged 65 and over; measures: Value`,
+#                               one_family_married = `Household Composition: One family only: Married or same-sex civil partnership couple; measures: Value`,
+#                               one_family_married_no_children = `Household Composition: One family only: Married or same-sex civil partnership couple: No children; measures: Value`,
+#                               one_family_married_with_dependent = `Household Composition: One family only: Married or same-sex civil partnership couple: Dependent children; measures: Value`,
+#                               one_family_married_non_dependent = `Household Composition: One family only: Married or same-sex civil partnership couple: All children non-dependent; measures: Value`,
+#                               one_family_couple = `Household Composition: One family only: Cohabiting couple; measures: Value`,
+#                               one_family_couple_no_children = `Household Composition: One family only: Cohabiting couple: No children; measures: Value`,
+#                               one_family_couple_with_dependent = `Household Composition: One family only: Cohabiting couple: Dependent children; measures: Value`,
+#                               one_family_couple_non_dependent = `Household Composition: One family only: Cohabiting couple: All children non-dependent; measures: Value`,
+#                               one_family_lone_parent = `Household Composition: One family only: Lone parent; measures: Value`,
+#                               one_family_lone_parent_with_dependent = `Household Composition: One family only: Lone parent: Dependent children; measures: Value`,
+#                               one_family_lone_parent_non_dependent = `Household Composition: One family only: Lone parent: All children non-dependent; measures: Value`,
+#                               other_type = `Household Composition: Other household types; measures: Value`,
+#                               other_type_with_dependent = `Household Composition: Other household types: With dependent children; measures: Value`,
+#                               other_type_students = `Household Composition: Other household types: All full-time students; measures: Value`,
+#                               other_type_all_65_plus = `Household Composition: Other household types: All aged 65 and over; measures: Value`,
+#                               other_type_other = `Household Composition: Other household types: Other; measures: Value`)
 
 lsoa_dwellings <- read_csv("csv_data/lsoa/KS401EW.csv")# KS401EW - dwellings
 
@@ -82,7 +82,6 @@ lsoa_dwellings <- rename(lsoa_dwellings,
                          flat_commercial = `Dwelling Type: Flat, maisonette or apartment: In a commercial building; measures: Value`,
                          caravan = `Dwelling Type: Caravan or other mobile or temporary structure; measures: Value`)
 
-
 lsoa_rooms <- read_csv("csv_data/lsoa/KS403EW.csv")#     KS403EW - rooms, bedrooms, central heating
 
 lsoa_rooms <- rename(lsoa_rooms, 
@@ -97,31 +96,31 @@ lsoa_rooms <- rename(lsoa_rooms,
                      average_rooms_per_household = `Central Heating: Average number of rooms per household; measures: Value`,
                      average_bedrooms_per_household = `Central Heating: Average number of bedrooms per household; measures: Value`)
 
-lsoa_crime <- read_csv("csv_data/MPS_LSOA_Level_Crime.csv")
-
-lsoa_crime <- rename(lsoa_crime,
-                     geography_code = `LSOA Code`,
-                     crime_category = `Major Category`)
-
-lsoa_crime$total_crimes <- rowSums(lsoa_crime[c(5:28)])
-
-lsoa_crime <- lsoa_crime %>%
-  group_by(geography_code) %>%
-      summarise(total_crimes=sum(total_crimes))
+# lsoa_crime <- read_csv("csv_data/MPS_LSOA_Level_Crime.csv")
+# 
+# lsoa_crime <- rename(lsoa_crime,
+#                      geography_code = `LSOA Code`,
+#                      crime_category = `Major Category`)
+# 
+# lsoa_crime$total_crimes <- rowSums(lsoa_crime[c(5:28)])
+# 
+# lsoa_crime <- lsoa_crime %>%
+#   group_by(geography_code) %>%
+#       summarise(total_crimes=sum(total_crimes))
 
 #glimpse(lsoa_crime)
 
 lsoa_data <- lsoa_dwellings %>% 
-  left_join(lsoa_household_comp) %>% 
-  left_join(lsoa_population) %>% 
-  left_join(lsoa_rooms) %>% 
-  left_join(lsoa_crime)
+  left_join(lsoa_rooms) # %>%
+  #left_join(lsoa_household_comp) %>% 
+  #left_join(lsoa_population) %>% 
+  #left_join(lsoa_crime)
 
 #glimpse(lsoa_data)
  
 #lsoa_data$crime_category <- as.factor(lsoa_data$crime_category)
 
-lsoa_data$crimes_per_person <- lsoa_data$total_crimes/lsoa_data$all_residents
+#lsoa_data$crimes_per_person <- lsoa_data$total_crimes/lsoa_data$all_residents
 
 lsoa_data$flats <- lsoa_data$flat_commercial + lsoa_data$flat_converted + lsoa_data$flat_purpose_built
 
@@ -174,7 +173,10 @@ travel_to_bank_avg <- travel_to_bank_join %>%
                             walking_distance_miles=mean(walking_distance_miles),
                             walking_time_mins=mean(walking_time_mins))
 
-lsoa_2011 <- lsoa_2011 %>% left_join(fare_zone) %>% left_join(oa_lsoa_match_data) %>% left_join(travel_to_bank_avg)
+lsoa_2011 <- lsoa_2011 %>% 
+  left_join(fare_zone) %>% 
+  left_join(oa_lsoa_match_data) %>% 
+  left_join(travel_to_bank_avg)
 
 #glimpse(lsoa_2011)
 
@@ -227,8 +229,9 @@ pp_london_complete$postcode <- gsub(" ", "", pp_london_complete$postcode)
 
 #pp_london_complete$property_type <- as.factor(pp_london_complete$property_type)
 
-pp_london_complete <- pp_london_complete[is.na(pp_london_complete$property_type)==FALSE
-                                         & pp_london_complete$property_type!="O",]
+pp_london_complete <- pp_london_complete[
+  is.na(pp_london_complete$property_type)==FALSE
+  & pp_london_complete$property_type!="O",]
 
 pp_london_join <- pp_london_complete %>% left_join(lsoa_2011)
 
@@ -329,6 +332,63 @@ pp_london_lsoa$inner_outer <- ifelse(pp_london_lsoa$LAD11CD %in%
 
 #glimpse(pp_london_lsoa)
 
+pp_london_lsoa$price_per_room <- pp_london_lsoa$price/pp_london_lsoa$predicted_rooms
+
+perc.rank <- function(x) ifelse(is.na(x), NA, rank(x)/sum(!is.na(x)))
+
+pp_london_lsoa$bang_for_buck_index = perc.rank(
+  ((1/perc.rank(pp_london_lsoa$price_per_room)) * 
+     perc.rank(pp_london_lsoa$ptal_score)) /
+  pp_london_lsoa$price
+    )
+
+pp_london_lsoa$walking_time_mins[pp_london_lsoa$walking_time_mins == 0] <- NA
+
+pp_london_lsoa$walking_distance_miles[pp_london_lsoa$walking_distance_miles == 0] <- NA
+
+pp_london_lsoa$cycling_time_mins[pp_london_lsoa$cycling_time_mins == 0] <- NA
+
+pp_london_lsoa$cycling_distance_miles[pp_london_lsoa$cycling_distance_miles== 0] <- NA
+
+pp_london_lsoa$public_transport_time_mins[
+  pp_london_lsoa$public_transport_time_mins == 0] <- NA
+
+pp_london_lsoa$driving_time_mins[pp_london_lsoa$driving_time_mins == 0] <- NA
+
+pp_london_lsoa$driving_distance_miles[pp_london_lsoa$driving_distance_miles == 0] <- NA
+
+pp_london_lsoa$bang_for_buck_walking_index = perc.rank(
+  ((1/perc.rank(pp_london_lsoa$price_per_room)) * 
+     perc.rank(pp_london_lsoa$walking_time_mins)) /
+  pp_london_lsoa$price
+    )
+
+pp_london_lsoa$bang_for_buck_cycling_index = perc.rank(
+  ((1/perc.rank(pp_london_lsoa$price_per_room)) * 
+     perc.rank(pp_london_lsoa$cycling_time_mins)) /
+  pp_london_lsoa$price
+    )
+
+
+pp_london_lsoa$bang_for_buck_transport_index = perc.rank(
+  ((1/perc.rank(pp_london_lsoa$price_per_room)) * 
+     perc.rank(pp_london_lsoa$public_transport_time_mins)) /
+            pp_london_lsoa$price
+    )
+
+
+pp_london_lsoa$bang_for_buck_driving_index = perc.rank(
+  ((1/perc.rank(pp_london_lsoa$price_per_room)) * 
+     perc.rank(pp_london_lsoa$driving_time_mins)) /
+  pp_london_lsoa$price
+    )
+
+
+drops <- c("LSOA11NM", "MSOA11CD", "MSOA11NM", "LAD11CD",
+           "ptal_score", "PTAIHigh", "PTAILow")
+
+pp_london_lsoa <- pp_london_lsoa[ , !(names(pp_london_lsoa) %in% drops)]
+
 write_rds(pp_london_lsoa, "house-price-app/data/london_data.rds")
 
 # map creation ------------------------------------------------------------
@@ -353,23 +413,13 @@ london_shape[c("geography_code", "LSOA11NM", "MSOA11CD",
                             "MSOA11NM", "LAD11CD", "LAD11NM")], as.character)
 
 
-travel <- lsoa_2011[c("geography_code", "fare_zone", "driving_distance_miles",
-                      "driving_time_mins", "public_transport_time_mins",
-                      "cycling_distance_miles", "cycling_time_mins", 
-                      "walking_distance_miles", "walking_time_mins")]
+travel <- lsoa_2011[c("geography_code", "fare_zone")]
 
 travel <- travel %>%
   group_by(geography_code) %>%
-  summarise(full_fare_zone=mean(fare_zone),
-            driving_distance_miles = mean(driving_distance_miles),
-            driving_time_mins = mean(driving_time_mins),
-            public_transport_time_mins = mean(public_transport_time_mins),
-            cycling_distance_miles = mean(cycling_distance_miles),
-            cycling_time_mins = mean(cycling_time_mins),
-            walking_distance_miles = mean(walking_distance_miles),
-            walking_time_mins = mean(walking_time_mins))
+  summarise(full_fare_zone = round(mean(fare_zone),0))
 
-london_shape <- full_join(london_shape, travel)
+london_shape <- full_join(london_shape, travel) %>% full_join(tpal_lsoa2011)
 
 write_rds(london_shape, "house-price-app/data/london_shape.rds")
 

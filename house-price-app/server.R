@@ -19,8 +19,6 @@ shinyServer(function(input, output, session) {
   
   london_data_subset <- reactive({
     
-    #london_data <- london_data[c("geography_code", "ptal_score", "ptal_level", "price", "property_type", "fare_zone", "predicted_rooms", "inner_outer")]
-    
     london_data[london_data$property_type %in% input$property_type 
               & london_data$fare_zone %in% input$fare_zone 
               & london_data$ptal_level %in% input$ptal_level 
@@ -41,25 +39,81 @@ shinyServer(function(input, output, session) {
   output$map <- renderLeaflet({
     
     london_map <- left_join(london_shape, london_data_subset())
+  
+    london_map$bang_for_buck <- perc.rank(london_map[[input$score_index]]) 
+
+    pal <- colorNumeric(input$colour_scheme, domain = london_map$bang_for_buck)
     
-    london_map$price_per_room <- london_map$price/london_map$predicted_rooms
-    
-    london_map$bang_for_buck <- as.numeric(perc.rank(((1/perc.rank(london_map$price_per_room)) *
-                                                        perc.rank(london_map$ptal_score)) / 
-                                                       (rescale(london_map$price, to = c(-1, 0), na.rm = TRUE) * -1)))
+    if(input$score_index=="bang_for_buck_index"){
       
-    pal <- colorNumeric(input$colour_scheme, domain = as.numeric(london_map$bang_for_buck))
+      score_labels <- paste0("PTAL Score: ", round(
+                                as.numeric(london_map$ptal_score), 2), "</br>",
+                             "PTAL Level: ", round(
+                               as.numeric(london_map$ptal_level), 2), "</br>")
+      
+    } else if(input$score_index=="bang_for_buck_walking_index"){
+      
+      score_labels <- paste0("Walking Distance (Miles): ", 
+                             round(
+                               as.numeric(london_map$walking_distance_miles), 
+                               2), 
+                             "</br>",
+                             "Cycling Time (Minutes): ", 
+                             round(
+                               as.numeric(london_map$walking_time_mins), 2),
+                             "</br>")
+      
+    } else if(input$score_index=="bang_for_buck_cycling_index"){
+      
+      score_labels <- paste0("Cycling Distance (Miles): ", 
+                             round(as.numeric(london_map$cycling_distance_miles), 2), 
+                             "</br>",
+                             "Cycling Time (Minutes): ", 
+                             round(as.numeric(london_map$cycling_time_mins), 2), "</br>")
+      
+    } else if(input$score_index=="bang_for_buck_transport_index"){
+      
+      score_labels <- paste0("Transport Time (Minutes): ", 
+                             round(as.numeric(
+                               london_map$public_transport_time_mins), 2),
+                             "</br>")
+      
+    } else if(input$score_index=="bang_for_buck_driving_index"){
+      
+      score_labels <- paste0("Driving Distance (Miles): ", 
+                             round(
+                               as.numeric(london_map$driving_distance_miles),
+                               2), 
+                             "</br>",
+                             "Driving Time (Minutes): ", 
+                             round(
+                               as.numeric(london_map$driving_time_mins), 2),
+                             "</br>")
+      
+    }
     
-    bang_buck_labels <- paste0("</strong>Location: ", london_map$LSOA11NM, "</strong></br>",
-                               "Average Price: £", prettyNum(round(as.numeric(london_map$price),2), big.mark = ","), "</br>",
-                               "Estimated Average Price Per Room: £", prettyNum(round(as.numeric(london_map$price_per_room),2), big.mark = ","), "</br>",
-                               "Number of Sales: ", london_map$number_sales, "</br>",
-                               "PTAL Score: ", london_map$ptal_score, "</br>",
-                               "PTAL Level: ", london_map$ptal_level, "</br>",
-                               "Travel Zone: ", london_map$full_fare_zone, "</br>",
-                               "Bang for Buck: ", round(as.numeric(london_map$bang_for_buck), 2)) %>% lapply(htmltools::HTML)
+    bang_buck_labels <- paste0("</strong>Location: ", london_map$LSOA11NM,
+                               "</strong></br>",
+                               "Average Price: £", 
+                               prettyNum(round(as.numeric(london_map$price),2),
+                                         big.mark = ","), "</br>",
+                               "Estimated Average Price Per Room: £", 
+                               prettyNum(round(as.numeric(
+                                 london_map$price_per_room),2), big.mark = ","),
+                               "</br>",
+                               "Number of Sales: ", london_map$number_sales,
+                               "</br>",
+                               score_labels,
+                               "Travel Zone: ", london_map$full_fare_zone,
+                               "</br>",
+                               "Bang for Buck: ", 
+                               round(
+                                 as.numeric(london_map$bang_for_buck), 2)
+                               ) %>% lapply(htmltools::HTML)
     
-    map_of_london <- leaflet(london_map, options = leafletOptions(minZoom = 10)) %>% 
+    
+    map_of_london <- leaflet(london_map, 
+                             options = leafletOptions(minZoom = 10)) %>% 
       addPolygons(color = "grey",
                   weight = 0.4,
                   opacity = 0.5,

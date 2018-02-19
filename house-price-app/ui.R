@@ -7,15 +7,15 @@ library(leaflet)
 
 # CSS ----------------------------------------------------------------------
 appCSS <- "#loading-content {
-position: absolute;
-background: #FFF;
-opacity: 0.9;
-z-index: 100;
-left: 0;
-right: 0;
-height: 100%;
-text-align: center;
-color: #000000;
+  position: absolute;
+  background: #FFF;
+  opacity: 0.9;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  height: 100%;
+  text-align: center;
+  color: #000000;
 }"
 
 shinyUI(
@@ -75,6 +75,18 @@ shinyUI(
                        selected =  c("Inner", "Outer"),
                        inline = TRUE
                       ),
+    
+    radioButtons("score_index",
+                       "Select scale",
+                       c("PTAL" = "bang_for_buck_index",
+                         "Walking" = "bang_for_buck_walking_index",
+                         "Cycling" = "bang_for_buck_cycling_index",
+                         "Public Transport" = "bang_for_buck_transport_index",
+                         "Driving" = "bang_for_buck_driving_index"),
+                       inline = TRUE
+      
+    ),
+    
     
     checkboxInput("select_local_authority", 
                   "Show Local Authority Options"),
